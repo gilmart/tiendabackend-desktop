@@ -1,0 +1,132 @@
+from Cuenta import Cuenta
+from Cliente import Cliente
+n=None
+while n!=0:
+    try:
+        op=int(input('''Que desea hacer? 
+           0.Salir
+           1.registrar Cliente
+           2.consultar saldo
+           3.retirar dinero
+           4.recargar cuenta: '''))
+        
+    except TypeError:
+       print('Debes digitar un numero')
+    else:
+        if op ==1:
+            ct=input('ingrese cedula de titular de cuenta: ')
+            nt=input('ingrese Nombre de titular de cuenta: ')
+            at=input('ingrese Apellido de titular de cuenta: ')
+            ncuenta=input('Ingrese el numero de cuenta: ')
+            try:
+                saldo=0
+                while saldo<=0:
+                    r=int(input('Ingrese el saldo de la cuenta: '))
+                    if r<=0:
+                        print('el saldo debe ser mayor a 0')
+                    else:
+                        saldo=r                  
+            except TypeError:
+                print('Debe digitar un numero')
+            objtc=Cliente(nt,at,ct)
+            Cliente.guardarCliente(objtc)
+            objtcuenta=Cuenta(ncuenta,saldo,ct)
+            Cuenta.guardarCuenta(objtcuenta)
+            print('Cliente registrado con exito...')
+        elif op ==2:
+            ncuenta=input('Ingrese el numero de cuenta: ')
+            Cuenta.consultarSaldo(ncuenta)
+        elif op ==3:
+            ncuenta=input('Ingrese el numero de cuenta: ')
+            saldo=int(input('Ingrese el valor a retirar: '))
+            Cuenta.retirarDinero(ncuenta,saldo)
+        elif op ==4:
+            ncuenta=input('Ingrese el numero de cuenta: ')
+            saldo=int(input('Ingrese el valor a recargar: '))
+            Cuenta.recargarCuenta(ncuenta,saldo)
+        elif op==0:
+            n=0
+        else: print('Digito invalido, la respuesta debe estar entre el rango')
+print('Fin de programa...')    
+
+---------
+cuentas=[]
+class Cuenta:
+     
+    def __init__(self,numeroCuenta,saldo,cedula):
+        self.numeroCuenta=numeroCuenta
+        self.saldo=saldo
+        self.cedula=cedula
+    
+    def guardarCuenta(self):
+        cuenta={}
+        cuenta={
+            "cedula":self.cedula,
+            "numeroCuenta":self.numeroCuenta,
+            "saldo":self.saldo
+        }
+        cuentas.append(cuenta)
+    
+    def consultarSaldo(cuenta):
+        for i in cuentas:
+            if i['numeroCuenta']==cuenta:
+                s=i['saldo']
+                print(f'su saldo es: {s}')
+            
+    def retirarDinero(cuenta,valor):
+        for i in cuentas:
+            print(i['numeroCuenta'])
+            if i['numeroCuenta']==cuenta:
+                
+                if i['saldo']<valor:    
+                    print('Saldo insuficiente! cupo disponible',s)
+                elif i['saldo']>=valor:
+                    i['saldo']-=valor
+                    s=i['saldo']
+                    print('Exito en retiro... nuevo saldo: ',s)
+                
+    def recargarCuenta(cuenta,valor):
+        for i in cuentas:
+            print(i['numeroCuenta'])
+            if i['numeroCuenta']==cuenta:
+                if valor<=0:
+                    print('valor a abonar invalido')
+                else:
+                    i['saldo']+=valor
+                    s=i['saldo']
+                    print(f'Exito en recarga...su nuevo saldo es: {s}')
+
+class Cliente:
+    datos=[]
+    def __init__(self,nombre,apellido,cedula):
+        self.nombre=nombre
+        self.apellido=apellido
+        self.cedula=cedula
+        
+    def guardarCliente(self):
+        cliente={}
+        cliente[self.cedula]={
+            "cedula":self.cedula,
+            "nombre":self.nombre,
+            "apellido":self.apellido
+        }
+        self.datos.append(cliente)
+
+---
+class Cliente:
+    datos=[]
+    def __init__(self,nombre,apellido,cedula):
+        self.nombre=nombre
+        self.apellido=apellido
+        self.cedula=cedula
+        
+    def guardarCliente(self):
+        cliente={}
+        cliente[self.cedula]={
+            "cedula":self.cedula,
+            "nombre":self.nombre,
+            "apellido":self.apellido
+        }
+        self.datos.append(cliente)
+        
+        
